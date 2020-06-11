@@ -1,0 +1,72 @@
+---
+Description: >
+  Tabi Idris  - Udacity 2020 - Capstone Project
+  CloudFormation file to create IAM role and EKS cluster.
+Parameters:
+  Capstone:
+    Description: An Enviroment name to tag resources
+    ConstraintDescription: Your env is invalid! Please, type an environment from the list
+    Type: String
+    Default: sandbox
+    AllowedValues:
+      - sandbox #env to developers create and test web apps
+      - staging #env to pre-live web apps
+      - production #env to add web app to production
+  
+Resources:
+
+  eksClusterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - eks.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+
+
+  clusterControlPlaneSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Cluster communication with worker nodes.
+      VpcId: 
+        Fn::ImportValue: !Sub "${Capstone}-VPC"
+  capstoneCluster:
+    Type: AWS::EKS::Cluster
+    Properties:
+      RoleArn: !GetAtt eksClusterRole.Arn
+      ResourcesVpcConfig:
+        SecurityGroupIds:
+          - !Ref clusterControlPlaneSecurityGroup
+        SubnetIds:
+          - Fn::ImportValue: !Sub "${Capstone}-Subnets1"
+          - Fn::ImportValue: !Sub "${Capstone}-Subnets2"
+          - Fn::ImportValue: !Sub "${Capstone}-Subnets3"
+
+Outputs:
+
+  RoleArn:
+    Description: The role that Amazon EKS will use to create AWS resources for Kubernetes clusters
+    Value: !GetAtt eksClusterRole.Arn
+    Export:
+      Name: !Sub "${Capstone}-RoleArn"
+
+  ClusterName:
+    Value: !Ref capstoneCluster
+    Description: capstoneCluster
+    Export:
+      Name:
+        Fn::Sub: "${Capstone}-capstoneCluster"
+
+  ClusterEndpoint:
+    Value: !GetAtt capstoneCluster.Endpoint
+    Description: capstoneCluster Endpoint
+    Export:
+      Name:
+        Fn::Sub: "${Capstone}-ClusterEndpoint"

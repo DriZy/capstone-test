@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: 	arn:aws:iam::693037469598:role/CPEKS-eksClusterRole-1M6G7KI5CI541
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+    - rolearn: arn:aws:iam::693037469598:user/tabiidris
+      username: tabiidris
+      groups:
+        - system:masters
+
+  mapUsers: | 
+    - userarn: arn:aws:iam::693037469598:user/capstone
+      username: capstone 
+      groups: 
+        - system:masters

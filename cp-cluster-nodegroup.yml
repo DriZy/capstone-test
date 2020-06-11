@@ -1,0 +1,67 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: 'EKS Node Group definition.'
+
+Parameters:
+  Capstone:
+    Description: An Enviroment name to tag resources
+    ConstraintDescription: Your env is invalid! Please, type an environment from the list
+    Type: String
+    Default: sandbox
+    AllowedValues:
+      - sandbox #env to developers create and test web apps
+      - staging #env to pre-live web apps
+      - production #env to add web app to production
+
+  NodeGroupName:
+    Type: String
+    Description: Unique identifier for the Node Group.
+    Default: CpNodeGroup
+
+  NodeInstanceType:
+    Type: String
+    Default: t3.medium
+    Description: EC2 instance type for the node instances.
+
+  NodeGroupDesiredCapacity:
+    Type: Number
+    Default: 3
+    Description: Desired capacity of Node Group ASG.
+
+Resources:
+
+  NodeInstanceRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+        - "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+        - "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+      Path: /
+
+  NodeGroup:
+    Type: 'AWS::EKS::Nodegroup'
+    Properties:
+      NodegroupName: !Ref NodeGroupName
+      ClusterName: 
+        Fn::ImportValue: !Sub "${Capstone}-capstoneCluster"
+      NodeRole: !GetAtt NodeInstanceRole.Arn
+      InstanceTypes:
+        - !Ref NodeInstanceType
+      ScalingConfig:
+        MinSize: 2
+        DesiredSize: !Ref NodeGroupDesiredCapacity
+        MaxSize: 5
+      Subnets: 
+        - Fn::ImportValue: !Sub "${Capstone}-Subnets1"
+        - Fn::ImportValue: !Sub "${Capstone}-Subnets2"
+        - Fn::ImportValue: !Sub "${Capstone}-Subnets3"
