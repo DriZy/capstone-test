@@ -64,9 +64,13 @@ Resources:
             apt install tidy -y
             systemctl status jenkins
             apt-get update
-            apt install docker.io
+            apt install docker.io -y
             systemctl start docker
             systemctl enable docker
+            groupadd docker
+            usermod -aG docker $USER
+            newgrp docker
+            chmod 666 /var/run/docker.sock
       SecurityGroupIds:
         - Ref: CapstoneSG
       SubnetId:
