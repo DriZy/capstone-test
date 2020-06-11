@@ -1,7 +1,7 @@
 name: Docker Image CI
 env:
-  DOCKER_USERNAME: tabiidris
-  DOCKER_PASSWORD: preetycl71T*
+  DOCKER_USERNAME: ${{ secrets.DOCKERHUB_ID }}
+  DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
   DOCKER_REPONAME:  "capstone-bcrypt"
 
 on:
