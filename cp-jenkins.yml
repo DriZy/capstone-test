@@ -63,7 +63,10 @@ Resources:
             apt install jenkins -y
             apt install tidy -y
             systemctl status jenkins
-            # cp plugins.txt /usr/share/jenkins/ref/plugins.txt
+            apt-get update
+            apt install docker.io
+            systemctl start docker
+            systemctl enable docker
       SecurityGroupIds:
         - Ref: CapstoneSG
       SubnetId:
