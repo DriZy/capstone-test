@@ -37,7 +37,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: udacity
-        image: aminueza/capstone-bcrypt:1ec1f86
+        image: tabiidris/capstone-bcrypt:6402ed1
         command: [
           "/bin/bash", 
           "-c", 
@@ -82,38 +82,3 @@ spec:
       protocol: TCP
       port: 443
       targetPort: 443
-      
----
-kind: HorizontalPodAutoscaler
-apiVersion: autoscaling/v1
-metadata:
-  name: capstone-bcrypt
-spec:
-  scaleTargetRef:
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    name: capstone-bcrypt
-  minReplicas: 2
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
-
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: capstone-bcrypt
-  annotations:
-    ingress.kubernetes.io/force-ssl-redirect: "true"
-    kubernetes.io/ingress.class: "ingress-nginx"
-    #Limit app to my personal IP
-    #nginx.ingress.kubernetes.io/whitelist-source-range: "IP/32"
-
-spec:
-  rules:
-  - host: bcrypt.amandasouza.net
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: capstone-bcrypt
-          servicePort: 80
