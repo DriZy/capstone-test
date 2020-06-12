@@ -43,21 +43,11 @@ pipeline {
                 }
             }
         }
-        stage('Scan Dockerfile to find vulnerabilities') {
-            steps{
-                aquaMicroscanner imageName: "tabiidris/capstone-bcrypt:${env.GIT_HASH}", notCompliesCmd: 'exit 4', onDisallowed: 'fail', outputFormat: 'html'
-            }
-        }
-        stage('Build Docker Container') {
-      		steps {
-			    sh 'docker run --name capstone -d -p 80:80 tabiidris/capstone-bcrypt:${env.GIT_HASH}'
-            }
-        }
         stage('Deploying to EKS') {
             steps {
                 dir('k8s') {
-                    withAWS(credentials: 'aws-credentials', region: 'eu-west-2') {
-                            sh "aws eks --region eu-west-2 update-kubeconfig --name capstone"
+                    withAWS(credentials: 'aws-credentials', region: 'us-west-2') {
+                            sh "aws eks --region us-west-2 update-kubeconfig --name capstoneCluster-G3Tof64MEiBF"
                             sh 'kubectl apply -f capstone-k8s.yaml'
                         }
                     }

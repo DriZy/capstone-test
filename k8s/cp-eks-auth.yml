@@ -14,9 +14,3 @@ data:
       username: tabiidris
       groups:
         - system:masters
-
-  mapUsers: | 
-    - userarn: arn:aws:iam::693037469598:user/capstone
-      username: capstone 
-      groups: 
-        - system:masters
