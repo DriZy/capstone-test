@@ -2,6 +2,7 @@
 Description: >
   Tabi Idris - Udacity 2020 - Capstone Project
   CloudFormation file to allow EC2 instances to manage Web App S3.
+  
 Parameters:
   Capstone:
     Description: "An Enviroment name to tag resources"

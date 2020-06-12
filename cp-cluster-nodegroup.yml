@@ -1,6 +1,7 @@
 ---
-AWSTemplateFormatVersion: "2010-09-09"
-Description: 'EKS Node Group definition.'
+Description: >
+  Tabi Idris  - Udacity 2020 - Capstone Project
+  CloudFormation file to create NodeGroup for EKS cluster.
 
 Parameters:
   Capstone:
