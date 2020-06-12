@@ -37,10 +37,9 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build("tabiidris/capstone-bcrypt:${env.GIT_HASH}")
-                    dockerImage.push()
-                    // docker.withRegistry('', dockerhubCredentials) {
-                    //     dockerImage.push()
-                    // }
+                    docker.withRegistry('', dockerhubCredentials) {
+                        dockerImage.push()
+                    }
                 }
             }
         }
