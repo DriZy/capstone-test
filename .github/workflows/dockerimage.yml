@@ -48,11 +48,12 @@ jobs:
         docker build . \
         --file Dockerfile \
         --tag $DOCKER_USERNAME/$DOCKER_REPONAME:${GITHUB_SHA::7}
-    - name: Login to Dockerhub
+    - name: Login to Dockerhub 
+      if: "'refs/heads/master' == github.ref || startsWith(github.ref, 'refs/tags/')"
       run: | 
-        echo $DOCKER_PASSWORD | \
-        docker login \
-        --username $DOCKER_USERNAME --password-stdin
+        echo $DOCKER_PASSWORD | $(which docker) login \
+        --password-stdin \
+        --username $DOCKER_USERNAME 
     - name: Push the Docker image
       run: |
         docker push \
