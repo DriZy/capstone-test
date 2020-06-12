@@ -46,7 +46,7 @@ pipeline {
         stage('Deploying to EKS') {
             steps {
                 dir('k8s') {
-                    withAWS(credentials: 'aws-credentials', region: 'us-west-2') {
+                    withAWS(credentials: 'eksCredentials', region: 'us-west-2') {
                             sh "aws eks --region us-west-2 update-kubeconfig --name capstoneCluster-G3Tof64MEiBF"
                             sh 'kubectl apply -f capstone-k8s.yaml'
                         }
