@@ -3,6 +3,7 @@
 ## Introduction
 
 This project is a requirement to graduate at [Cloud DevOps Nanodegree](https://www.udacity.com/course/cloud-dev-ops-nanodegree--nd9991). The project requires to set up a Kubernetes cluster hosted at AWS EKS, and deploy the Docker image using Jenkins Pipeline.
+The deployment startegy used on this  project is rolling deployment *Can be changed*
 
 ## Technologies
 
@@ -22,13 +23,13 @@ This project is a requirement to graduate at [Cloud DevOps Nanodegree](https://w
 * [Docker](https://docs.docker.com/get-docker/)
 
 ## Creating stacks
-  - Network Template~~ `./create-stack.sh "your-stack-name" cp-vpc-config.yml cp-vpc-params.json`
-  - EKS Cluster Template~~ `./create-stack.sh "your-stack-name" cp-eks-cluster.yml cp-vpc-params.json`
-  - Jenkins Template~~ `./create-stack.sh "your-stack-name" cp-jenkins.yml cp-vpc-params.json`
-  - Cluster NodeGroups Template~~ `./create-stack.sh "your-stack-name" cp-cluster-nodegroup.yml cp-vpc-params.json`
+  - Network Template `./create-stack.sh "your-stack-name" cp-vpc-config.yml cp-vpc-params.json`
+  - EKS Cluster Template `./create-stack.sh "your-stack-name" cp-eks-cluster.yml cp-vpc-params.json`
+  - Jenkins Template `./create-stack.sh "your-stack-name" cp-jenkins.yml cp-vpc-params.json`
+  - Cluster NodeGroups Template `./create-stack.sh "your-stack-name" cp-cluster-nodegroup.yml cp-vpc-params.json`
 
 ## Files
 * Dockerfile
 * Jenkinsfile
-* Kubernetes Deployment Template~~
+* Kubernetes Deployment Template
 * Source Code
