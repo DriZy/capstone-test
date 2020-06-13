@@ -1,7 +1,6 @@
 FROM node:12.13.1-stretch-slim
 
 WORKDIR /bcrypt
-hello docker
 COPY app/ /bcrypt/
 
 RUN echo "[INFO]::[install-run-nmp]" && \
