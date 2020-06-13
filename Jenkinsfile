@@ -4,7 +4,7 @@ pipeline {
     }
     agent any
     stages {
-        stage('Hashing images') {
+        stage('Check branch & Hash image') {
             steps {
                 script {
                     sh "echo 'Deploy to staging'"
@@ -81,17 +81,3 @@ pipeline {
         }
     }
 }
-
-
-
-steps {
-        sh "echo 'Deploy to staging'"
-        script {
-          if(env.BRANCH_NAME=='master'){
-
-          }else if(env.BRANCH_NAME=='develop'){   
-
-          } else {
-
-          }
-      }
