@@ -46,7 +46,7 @@ pipeline {
         stage('Build & Push to dockerhub') {
             steps {
                 script {
-                    dockerImage = docker.build("tabiidris/capstone-bcrypt:${env.GIT_HASH}}")
+                    dockerImage = docker.build("tabiidris/capstone-bcrypt:${env.GIT_HASH}")
                     docker.withRegistry('', dockerhubCredentials) {
                         dockerImage.push()
                     }
