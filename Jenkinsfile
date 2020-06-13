@@ -11,13 +11,11 @@ pipeline {
                     script {
                         if(env.BRANCH_NAME=='master'){
                             sh"echo 'your build can start'"
-                            steps {
-                                script {
-                                    env.GIT_HASH = sh(
-                                        script: "git show --oneline | head -1 | cut -d' ' -f1",
-                                        returnStdout: true
-                                    ).trim()
-                                }
+                            script {
+                                env.GIT_HASH = sh(
+                                    script: "git show --oneline | head -1 | cut -d' ' -f1",
+                                    returnStdout: true
+                                ).trim()
                             }
                         }else if(env.BRANCH_NAME=='develop'){  
                             sh"eho 'Please create a pull request and have a successful merge'" 
