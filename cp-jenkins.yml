@@ -26,7 +26,7 @@ Parameters:
 Mappings:
   CapstoneRegion:
     us-west-2:
-      sandbox: ami-003634241a8fcdec0
+      production: ami-003634241a8fcdec0
 
 Resources:
   CapstoneSG:
@@ -71,6 +71,13 @@ Resources:
             usermod -aG docker $USER
             newgrp docker
             chmod 666 /var/run/docker.sock
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" 
+            unzip awscliv2.zip
+            ./aws/install -y
+            ./aws/install -i /usr/local/aws-cli -b /usr/local/bin -y
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            mv ./kubectl /usr/local/bin/kubectl
       SecurityGroupIds:
         - Ref: CapstoneSG
       SubnetId:

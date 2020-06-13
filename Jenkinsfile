@@ -4,13 +4,25 @@ pipeline {
     }
     agent any
     stages {
-        stage('Hashing images') {
+        stage('Check branch & Hash image') {
             steps {
                 script {
-                    env.GIT_HASH = sh(
-                        script: "git show --oneline | head -1 | cut -d' ' -f1",
-                        returnStdout: true
-                    ).trim()
+                    sh "echo 'Deploy to staging'"
+                    script {
+                        if(env.BRANCH_NAME=='master'){
+                            sh"echo 'your build can start'"
+                            steps {
+                                script {
+                                    env.GIT_HASH = sh(
+                                        script: "git show --oneline | head -1 | cut -d' ' -f1",
+                                        returnStdout: true
+                                    ).trim()
+                                }
+                            }
+                        }else if(env.BRANCH_NAME=='develop'){  
+                            sh"eho 'Please create a pull request and have a successful merge'" 
+                        }
+                    }
                 }
             }
         }
@@ -36,22 +48,28 @@ pipeline {
         stage('Build & Push to dockerhub') {
             steps {
                 script {
-                    dockerImage = docker.build("tabiidris/capstone-bcrypt:${env.GIT_HASH}")
+                    dockerImage = docker.build("tabiidris/capstone-bcrypt:latest}")
                     docker.withRegistry('', dockerhubCredentials) {
                         dockerImage.push()
                     }
                 }
             }
         }
+        stage('Scan Dockerfile to find vulnerabilities') {
+            steps{
+                aquaMicroscanner imageName: "tabiidris/capstone-bcrypt:${env.GIT_HASH}", notCompliesCmd: 'exit 4', onDisallowed: 'fail', outputFormat: 'html'
+            }
+        }
         stage('Deploying to EKS') {
             steps {
                 dir('k8s') {
                     withAWS(credentials: 'eksCredentials', region: 'us-west-2') {
-                            sh "/usr/local/bin/aws eks --region us-west-2 update-kubeconfig --name capstoneCluster-G3Tof64MEiBF"
-                            sh 'kubectl apply -f capstone-k8s.yaml'
-                        }
+                        sh "/usr/local/bin/aws eks --region us-west-2 update-kubeconfig --name capstoneCluster-G3Tof64MEiBF"
+                        sh 'kubectl apply -f capstone-k8s.yaml'
                     }
+                }
             }
+            
         }
         stage("Cleaning Docker up") {
             steps {
