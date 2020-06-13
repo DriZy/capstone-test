@@ -43,6 +43,11 @@ pipeline {
                 }
             }
         }
+        stage('Scan Dockerfile to find vulnerabilities') {
+            steps{
+                aquaMicroscanner imageName: "tabiidris/capstone-bcrypt:${env.GIT_HASH}", notCompliesCmd: 'exit 4', onDisallowed: 'fail', outputFormat: 'html'
+            }
+        }
         stage('Deploying to EKS') {
             steps {
                 dir('k8s') {
