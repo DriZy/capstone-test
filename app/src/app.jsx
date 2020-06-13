@@ -113,7 +113,7 @@ class App extends React.Component {
               <Grid.Column>
                 <h2 className="ui center aligned header">
                   <i className="random icon" />
-                  Encryption
+                  Encryption Text Box
                 </h2>
                 <Input
                   id="text-to-encrypt"
@@ -138,7 +138,7 @@ class App extends React.Component {
               <Grid.Column>
                 <h2 className="ui center aligned header">
                   <i className="retweet icon" />
-                  Decryption
+                  Udacity Decryption
                 </h2>
                 <Input
                   id="hash-to-decrypt"
