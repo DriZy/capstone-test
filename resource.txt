@@ -1,0 +1,12 @@
+DockerHub repository : https://hub.docker.com/repository/docker/tabiidris/capstone-bcrypt
+
+GitHub repository : https://github.com/DriZy/udacity-capstone
+
+References: Udacity Cloud DevOps Course 
+
+            https://github.com/geerlingguy/ansible-for-kubernetes/tree/master/cluster-aws-eks
+            
+            https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html
+
+            https://github.com/aminueza/Udacity-Capstone-DevOps
+
