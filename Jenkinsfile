@@ -46,7 +46,7 @@ pipeline {
         stage('Build & Push to dockerhub') {
             steps {
                 script {
-                    dockerImage = docker.build("tabiidris/capstone-bcrypt:${env.GIT_HASH}")
+                    dockerImage = docker.build("tabiidris/capstone-pr:${env.GIT_HASH}")
                     docker.withRegistry('', dockerhubCredentials) {
                         dockerImage.push()
                         dockerImage.push('latest')
@@ -56,7 +56,7 @@ pipeline {
         }
         stage('Scan Dockerfile to find vulnerabilities') {
             steps{
-                aquaMicroscanner imageName: "tabiidris/capstone-bcrypt:${env.GIT_HASH}", notCompliesCmd: 'exit 4', onDisallowed: 'fail', outputFormat: 'html'
+                aquaMicroscanner imageName: "tabiidris/capstone-pr:${env.GIT_HASH}", notCompliesCmd: 'exit 4', onDisallowed: 'fail', outputFormat: 'html'
             }
         }
         stage('Deploying to EKS') {

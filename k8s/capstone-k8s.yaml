@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: capstone-bcrypt
+  name: capstone-pr
   labels:
-    app: capstone-bcrypt
+    app: capstone-pr
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: capstone-bcrypt
+      app: capstone-pr
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: capstone-bcrypt
+        app: capstone-pr
     spec:
       terminationGracePeriodSeconds: 60
       affinity:
@@ -30,7 +30,7 @@ spec:
               - key: "app"
                 operator: In
                 values:
-                - capstone-bcrypt
+                - capstone-pr
               - key: "temporary"
                 operator: In
                 values:
@@ -38,7 +38,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: udacity
-        image: tabiidris/capstone-bcrypt:latest
+        image: tabiidris/capstone-pr:latest
         command: [
           "/bin/bash", 
           "-c", 
@@ -69,11 +69,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: capstone-bcrypt
+  name: capstone-pr
 spec:
   type: LoadBalancer
   selector:
-    app: capstone-bcrypt
+    app: capstone-pr
   ports:
     - name: http
       protocol: TCP
