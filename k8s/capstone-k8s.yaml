@@ -5,6 +5,7 @@ metadata:
   labels:
     app: capstone-bcrypt
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: capstone-bcrypt
