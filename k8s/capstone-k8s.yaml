@@ -38,7 +38,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: udacity
-        image: tabiidris/capstone-pr:e75d11a
+        image: tabiidris/capstone-pr:8e60b76
         command: [
           "/bin/bash", 
           "-c", 
